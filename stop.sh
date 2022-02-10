@@ -1,0 +1,2 @@
+killall minerproxy 
+killall tproxy 
