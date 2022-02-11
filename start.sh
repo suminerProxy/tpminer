@@ -34,7 +34,7 @@ while [ 1 ] ; do
     if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
         sleep 1;
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
-		$tp="/tproxy"
+		tp="/tproxy"
         $cur_dir$tp -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 		ufw delete allow $port
 		killall $url
