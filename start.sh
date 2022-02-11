@@ -7,7 +7,7 @@ token=" "
 url=" "
 
 while [ 1 ] ; do
-	if [ $(ps -e | grep minerproxy | awk '{print $1}') -ne 0 ];then
+	if [ $(ps -ef|grep minerproxy |grep -v grep|wc -l) -ne 0 ];then
 		sleep 1;
 		pid=`ps -e | grep minerproxy | awk '{print $1}'`
 		url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
@@ -16,7 +16,7 @@ while [ 1 ] ; do
 		
 		port=$(echo $(cat config.yml | yq .port))
 		token=$(echo $(cat config.yml | yq .token))
-	elif [ $(ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}') -eq 0 ];then
+	elif [ $(ps -ef|grep minerProxy_v4.0.0T9_linux_amd64 |grep -v grep|wc -l) -ne 0 ];then
 		sleep 1;
 		pid=`ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}'`
 		url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
