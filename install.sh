@@ -67,8 +67,8 @@ port=18888
 token=" "
 url=" "
 touch /etc/profile.d/start.yaml
-yq -i .youport=$(echo $youport) /etc/profile.d/start.yaml
-yq -i .cur_dir=$(echo $cur_dir) /etc/profile.d/start.yaml
+yq -i .youport=\"$youport\" /etc/profile.d/start.yaml
+yq -i .cur_dir=\"$cur_dir\" /etc/profile.d/start.yaml
 cp start.sh /etc/profile.d/
 nohup ./start.sh &
 if [ $(ps -ef|grep minerproxy |grep -v grep|wc -l) -ne 0 ];then
