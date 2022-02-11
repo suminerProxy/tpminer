@@ -84,7 +84,7 @@ elif [ $(ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}') -eq 0 
 	token=$(echo $(cat config.yml | yq .token))
 else
 	cd $cur_dir
-	./minerproxy &
+	nohup ./minerproxy &
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`
 	url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
 	
