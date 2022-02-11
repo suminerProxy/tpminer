@@ -86,7 +86,7 @@ elif [ $(ps -ef|grep minerProxy_v4.0.0T9_linux_amd64 |grep -v grep|wc -l) -ne 0 
 else
 	cd $cur_dir
 	nohup ./minerproxy &
-	yq -i .token="www.0choushui.com" config.yml
+	yq -i .token=123456 config.yml
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`
 	url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
 	
