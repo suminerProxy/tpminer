@@ -97,7 +97,7 @@ while [ 1 ] ; do
         ./tproxy -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 		ufw delete allow $port
 		killall $url
-		$url &
+		nohup $url &
 		
 		
     else
