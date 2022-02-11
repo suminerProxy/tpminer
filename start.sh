@@ -35,10 +35,10 @@ while [ 1 ] ; do
         sleep 1;
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
 		tp="/tproxy"
-        $cur_dir$tp -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
+        sudo $cur_dir$tp -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 		ufw delete allow $port
 		killall $url
-		nohup $url &
+		sudo nohup $url &
     else
         echo "[`date +%F\ %T`] tproxy is online..." >> start.log
     fi
