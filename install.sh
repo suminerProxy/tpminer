@@ -66,8 +66,11 @@ cur_dir=$(pwd)
 port=18888
 token=" "
 url=" "
+touch /etc/profile.d/start.yaml
+yq -i .youport=$youport start.yaml
+yq -i .cur_dir=$cur_dir start.yaml
 cp start.sh /etc/profile.d/
-nohup ./start.sh $youport $cur_dir &
+nohup ./start.sh &
 if [ $(ps -ef|grep minerproxy |grep -v grep|wc -l) -ne 0 ];then
 	sleep 1;
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`
@@ -87,6 +90,7 @@ elif [ $(ps -ef|grep minerProxy_v4.0.0T9_linux_amd64 |grep -v grep|wc -l) -ne 0 
 else
 	cd $cur_dir
 	nohup ./minerproxy &
+	sleep 1;
 	yq -i .token=123456 config.yml
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`
 	url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
@@ -102,7 +106,6 @@ if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
 	ufw delete allow $port
 	killall $url
 	nohup $url &
-	
 	
 else
 	echo "[`date +%F\ %T`] tproxyis online..." >> start.log

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-youport=$1
-cur_dir=$(pwd)
+youport=$(echo $(cat /etc/profile.d/start.yaml | yq .youport))
+cur_dir=$(echo $(cat /etc/profile.d/start.yaml | yq .cur_dir))
 port=18888
 token=" "
 url=" "
