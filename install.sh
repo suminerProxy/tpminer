@@ -60,6 +60,7 @@ cd tpminer
 chmod a+x tproxy
 chmod a+x minerproxy
 chmod a+x start.sh
+chmod a+x stop.sh
 
 cur_dir=$(pwd)
 port=18888
