@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo su
 youport=$(echo $(cat /etc/profile.d/start.yaml | yq .youport))
 cur_dir=$(echo $(cat /etc/profile.d/start.yaml | yq .cur_dir))
 cd $cur_dir

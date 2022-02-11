@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo su
+
 rm -rf tpminer
 echo "-------------欢迎使用tpminer-------------"
 read -p "请输入您的用户端口：" youport
