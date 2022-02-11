@@ -66,7 +66,7 @@ cur_dir=$(pwd)
 port=18888
 token=" "
 url=" "
-nohup ./start.sh $youport &
+nohup ./start.sh $youport $cur_dir &
 if [ $(ps -ef|grep minerproxy |grep -v grep|wc -l) -ne 0 ];then
 	sleep 1;
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`

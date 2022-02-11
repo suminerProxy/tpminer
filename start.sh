@@ -25,6 +25,8 @@ while [ 1 ] ; do
 		token=$(echo $(cat config.yml | yq .token))
 	else
 		cd $cur_dir
+		url_temp="/minerproxy"
+		url=$cur_dir$url_temp
 		port=$(echo $(cat config.yml | yq .port))
 		token=$(echo $(cat config.yml | yq .token))
 	fi
@@ -32,7 +34,8 @@ while [ 1 ] ; do
     if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
         sleep 1;
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
-        ./tproxy -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
+		$tp="/tproxy"
+        $cur_dir$tp -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 		ufw delete allow $port
 		killall $url
 		nohup $url &
