@@ -1,5 +1,4 @@
 #!/bin/bash
-
 rm -rf tpminer
 echo "-------------欢迎使用tpminer-------------"
 read -p "请输入您的用户端口：" youport
@@ -103,10 +102,10 @@ fi
 if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
 	sleep 1;
 	echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
-	./tproxy -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
+	sudo ./tproxy -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 	ufw delete allow $port
 	killall $url
-	nohup $url &
+	sudo nohup $url &
 	
 else
 	echo "[`date +%F\ %T`] tproxyis online..." >> start.log
