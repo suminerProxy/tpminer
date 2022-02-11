@@ -1,65 +1,6 @@
 #!/bin/bash
-echo "-------------欢迎使用tpminer-------------"
-read -p "请输入您的用户端口：" youport
-echo "-----------------------------------------"
-echo "正在安装，请稍后..."
 
-wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-chmod a+x /usr/local/bin/yq
-
-
-
-if grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
-	DISTRO='CentOS'
-	PM='yum'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq"Red Hat Enterprise Linux Server" /etc/*-release; then
-	DISTRO='RHEL'
-	PM='yum'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-elif grep -Eqi "Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
-	DISTRO='Aliyun'
-	PM='yum'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-elif grep -Eqi "Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
-	DISTRO='Fedora'
-	PM='yum'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
-	DISTRO='Debian'
-	PM='apt'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
-	DISTRO='Ubuntu'
-	PM='apt'
-elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
-	DISTRO='Raspbian'
-	PM='apt'
-	echo "暂不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-else
-	DISTRO='unknow'
-	echo "不支持此系统，请在Ubuntu系统上运行"
-	exit 1
-fi
-
-if ! [ -x "$(command -v git)" ]; then
-	echo "未发现git，正在安装，请稍后..."
-	$PM update
-	$PM install git -y
-fi
-
-git clone https://github.com/suminerProxy/tpminer.git
-cd tpminer
-chmod a+x tproxy
-chmod a+x minerproxy
-chmod a+x start.sh
-
+youport=$1
 cur_dir=$(pwd)
 port=18888
 token=" "
@@ -83,10 +24,7 @@ while [ 1 ] ; do
 		port=$(echo $(cat config.yml | yq .port))
 		token=$(echo $(cat config.yml | yq .token))
 	else
-		./minerproxy &
-		pid=`ps -e | grep minerproxy | awk '{print $1}'`
-		url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
-		
+		cd $cur_dir
 		port=$(echo $(cat config.yml | yq .port))
 		token=$(echo $(cat config.yml | yq .token))
 	fi
@@ -98,8 +36,6 @@ while [ 1 ] ; do
 		ufw delete allow $port
 		killall $url
 		nohup $url &
-		
-		
     else
         echo "[`date +%F\ %T`] tproxyis online..." >> start.log
     fi
