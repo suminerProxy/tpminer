@@ -9,35 +9,35 @@ chmod a+x /usr/local/bin/yq
 
 
 
-if grep -Eqi"CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+if grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
 	DISTRO='CentOS'
 	PM='yum'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
 	exit 1
-elif grep -Eqi"Red Hat Enterprise Linux Server" /etc/issue || grep -Eq"Red Hat Enterprise Linux Server" /etc/*-release; then
+elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq"Red Hat Enterprise Linux Server" /etc/*-release; then
 	DISTRO='RHEL'
 	PM='yum'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
 	exit 1
-elif grep -Eqi"Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
+elif grep -Eqi "Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
 	DISTRO='Aliyun'
 	PM='yum'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
 	exit 1
-elif grep -Eqi"Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
+elif grep -Eqi "Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
 	DISTRO='Fedora'
 	PM='yum'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
 	exit 1
-elif grep -Eqi"Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
+elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
 	DISTRO='Debian'
 	PM='apt'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
 	exit 1
-elif grep -Eqi"Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
+elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
 	DISTRO='Ubuntu'
 	PM='apt'
-elif grep -Eqi"Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
+elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
 	DISTRO='Raspbian'
 	PM='apt'
 	echo "暂不支持此系统，请在Ubuntu系统上运行"
@@ -65,7 +65,6 @@ port=18888
 token=" "
 url=" "
 
-nohup ./start.sh > start.log 2>&1 &
 while [ 1 ] ; do
 	if [ $(ps -e | grep minerproxy | awk '{print $1}') -ne 0 ];then
 		sleep 1;
@@ -97,6 +96,7 @@ while [ 1 ] ; do
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
         ./tproxy -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
 		ufw delete allow $port
+		killall $url
 		$url &
 		
 		
