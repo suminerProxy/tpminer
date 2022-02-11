@@ -83,6 +83,7 @@ elif [ $(ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}') -eq 0 
 	port=$(echo $(cat config.yml | yq .port))
 	token=$(echo $(cat config.yml | yq .token))
 else
+	cd $cur_dir
 	./minerproxy &
 	pid=`ps -e | grep minerproxy | awk '{print $1}'`
 	url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
@@ -104,6 +105,6 @@ else
 	echo "[`date +%F\ %T`] tproxyis online..." >> start.log
 fi
 echo "安装完成，请打开28888端口开始使用你的软件"
-sleep 10
+exit 0
 
 

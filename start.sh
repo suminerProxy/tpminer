@@ -37,9 +37,8 @@ while [ 1 ] ; do
 		killall $url
 		nohup $url &
     else
-        echo "[`date +%F\ %T`] tproxyis online..." >> start.log
+        echo "[`date +%F\ %T`] tproxy is online..." >> start.log
     fi
-	echo "安装完成，请打开28888端口开始使用你的软件"
     sleep 10
 done
 
