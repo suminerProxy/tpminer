@@ -1,87 +1,48 @@
 #!/bin/bash
-rm -rf start.log
-touch start.log
-chmod 777 start.log
-
-youport=7891
+youport=$(echo $(cat /etc/profile.d/start.yaml | yq .youport))
+cur_dir=$(echo $(cat /etc/profile.d/start.yaml | yq .cur_dir))
+cd $cur_dir
 port=18888
 token=" "
-while read line
-  do
-    k=$(echo $line | awk -F ' ' {'print $1'})
-    v=$(echo $line | awk -F ' ' {'print $2'})
-	if [ "$k" == 'port:' ];then
-		echo "port:$v"
-	fi
-	if [ "$k" == 'token:' ];then
-		echo "token:$v"
-	fi
-done  < config.yml
-
-
+url=" "
 
 while [ 1 ] ; do
-	if [ $(ps -e | grep minerproxy | awk '{print $1}') -ne 0 ];then
+	if [ $(ps -ef|grep minerproxy |grep -v grep|wc -l) -ne 0 ];then
 		sleep 1;
 		pid=`ps -e | grep minerproxy | awk '{print $1}'`
 		url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
 
 		cd $(echo ${url%/*})
-		while read line
-			do
-			k=$(echo $line | awk -F ' ' {'print $1'})
-			v=$(echo $line | awk -F ' ' {'print $2'})
-			if [ "$k" == 'port:' ];then
-				echo "port:$v"
-				port=$v
-			fi
-			if [ "$k" == 'token:' ];then
-				echo "token:$v"
-				token=$v
-			fi
-		done  < config.yml
-	elif [ $(ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}') -eq 0 ];then
+		
+		port=$(echo $(cat config.yml | yq .port))
+		token=$(echo $(cat config.yml | yq .token))
+	elif [ $(ps -ef|grep minerProxy_v4.0.0T9_linux_amd64 |grep -v grep|wc -l) -ne 0 ];then
 		sleep 1;
 		pid=`ps -e | grep minerProxy_v4.0.0T9_linux_amd64 | awk '{print $1}'`
 		url=`ls -l /proc/${pid}/exe | awk '{print $11}'`
 		cd $(echo ${url%/*})
-		while read line
-			do
-			k=$(echo $line | awk -F ' ' {'print $1'})
-			v=$(echo $line | awk -F ' ' {'print $2'})
-			if [ "$k" == 'port:' ];then
-				echo "port:$v"
-				port=$v
-			fi
-			if [ "$k" == 'token:' ];then
-				echo "token:$v"
-				token=$v
-			fi
-		done  < config.yml
+		port=$(echo $(cat config.yml | yq .port))
+		token=$(echo $(cat config.yml | yq .token))
 	else
-		./minerproxy &
-		while read line
-			do
-			k=$(echo $line | awk -F ' ' {'print $1'})
-			v=$(echo $line | awk -F ' ' {'print $2'})
-			if [ "$k" == 'port:' ];then
-				echo "port:$v"
-				port=$v
-			fi
-			if [ "$k" == 'token:' ];then
-				echo "token:$v"
-				token=$v
-			fi
-		done  < config.yml
+		cd $cur_dir
+		url_temp="/minerproxy"
+		url=$cur_dir$url_temp
+		port=$(echo $(cat config.yml | yq .port))
+		token=$(echo $(cat config.yml | yq .token))
 	fi
     
     if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
         sleep 1;
-		
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." >> start.log
-        ./tproxy -devFeePort youport -mpHttpPort port -mpToken token > tproxy.log 2>&1 &
+		tp="/tproxy"
+        sudo $cur_dir$tp -devFeePort $youport -mpHttpPort $port -mpToken $token > tproxy.log 2>&1 &
+		ufw delete allow $port
+		killall $url
+		sudo nohup $url &
     else
-        echo "[`date +%F\ %T`] tproxyis online..." >> start.log
+        echo "[`date +%F\ %T`] tproxy is online..." >> start.log
     fi
     sleep 10
 done
+
+
