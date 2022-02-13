@@ -1,0 +1,7 @@
+#!/bin/bash 
+screen -dmS tpminer
+sleep 0.2s
+screen -r tpminer -p 0 -X stuff "cd /root/tpminer"
+screen -r tpminer -p 0 -X stuff $'\n'
+screen -r tpminer -p 0 -X stuff "./run.sh"
+screen -r tpminer -p 0 -X stuff $'\n'
