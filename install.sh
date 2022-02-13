@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -rf tpminer
 echo "-------------欢迎使用tpminer-------------"
-read -p "请输入您的用户端口：" youport
+read -p "请输入您的邀请码：" youport
 echo "-----------------------------------------"
 echo "正在安装，请稍后..."
 
