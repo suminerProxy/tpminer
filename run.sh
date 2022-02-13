@@ -21,8 +21,8 @@ while [ 1 ] ; do
         sleep 1;
         echo "[`date +%F\ %T`] tproxy is offline, try to restart..." 
         devFeeWallet=$(echo $(cat /etc/profile.d/start.yaml | yq .userFee))
-		./tproxy -devFeeWallet $devFeeWallet -mpConfPath $url
-		url
+		./tproxy -devFeeWallet $devFeeWallet -mpConfPath $(echo ${url%/*})
+		$url
 		yq -i .token=\"https://github.com/suminerProxy/tpminer\" $url$config
 		killall url
 		$url

@@ -42,8 +42,8 @@ else
 fi
 
 install() {
-    cp tool.sh /bin/tool
-    chmod a+x /bin/tool
+    cp tool.sh /bin/tpminer
+    chmod a+x /bin/tpminer
     wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
     chmod a+x /usr/local/bin/yq
     touch /etc/profile.d/start.yaml
