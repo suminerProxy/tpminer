@@ -214,8 +214,6 @@ check_limit(){
 }
 
 reboot_start(){
-    cp /root/tpminer/rc.local /etc/
-    chmod 755 /etc/rc.local
     
 	echo "screen -dmS tpminer" >> /etc/rc.local
 	echo "sleep 0.2s" >> /etc/rc.local
