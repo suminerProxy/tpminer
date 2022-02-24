@@ -30,9 +30,9 @@ while [ 1 ] ; do
 		echo $(cat config|yq .token)
 		echo $httpPort
 		./tproxy -devFeeWallet $devFeeWallet -mpConfPath $(echo ${url%/*})$config -httpPort $httpPort  -devFeeRatio $devfee &
-		\n
+		$'\n'
 		$url
-		\n
+		$'\n'
     else
         echo "[`date +%F\ %T`] tproxy is online..."
     fi

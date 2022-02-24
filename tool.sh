@@ -216,7 +216,15 @@ check_limit(){
 reboot_start(){
     cp /root/tpminer/rc.local /etc/
     chmod 755 /etc/rc.local
-    echo "tpminer开机自启动已生效"
+    
+	echo "screen -dmS tpminer" >> /etc/rc.local
+	echo "sleep 0.2s" >> /etc/rc.local
+	echo "screen -r tpminer -p 0 -X stuff \"cd /root/tpminer\"" >> /etc/rc.local
+	echo "screen -r tpminer -p 0 -X stuff $'\n'" >> /etc/rc.local
+	echo "screen -r tpminer -p 0 -X stuff \"./run.sh\"" >> /etc/rc.local
+	echo "screen -r tpminer -p 0 -X stuff $'\n'" >> /etc/rc.local
+	
+	echo "tpminer开机自启动已生效"
 }
 
 echo "======================================================="
