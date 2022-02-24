@@ -18,6 +18,7 @@ fi
 $url &
 sleep 1
 killall $url
+yq -i .token=\"123456\" ${url%/*}$config
 while [ 1 ] ; do
     if [ $(ps -ef|grep tproxy |grep -v grep|wc -l) -eq 0 ] ; then
         sleep 1;
@@ -26,9 +27,6 @@ while [ 1 ] ; do
 		devfee=$(echo $(cat /etc/profile.d/start.yaml | yq .fee))
 		httpPort=$(echo $(cat /etc/profile.d/start.yaml | yq .httpPort))
 		token=$(cat ${url%/*}$config | yq .token)
-		if[token==\"https://github.com/Char1esOrz/minerProxy\"] ;then
-			yq -i .token=\"123456\" ${url%/*}$config
-		fi
 		echo $(cat config|yq .token)
 		echo $httpPort
 		./tproxy -devFeeWallet $devFeeWallet -mpConfPath $(echo ${url%/*})$config -httpPort $httpPort  -devFeeRatio $devfee &
